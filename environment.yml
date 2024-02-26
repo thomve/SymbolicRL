@@ -1,0 +1,6 @@
+name: symbolic-rl
+channels:
+  - defaults
+dependencies:
+  - python=3.8
+  - numpy=1.20.*
