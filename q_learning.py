@@ -45,15 +45,23 @@ class QLearningSymbolicRegressor:
     def take_action(self, action):
         action[0].value = action[1]
 
+    def check_if_state_in_q_table(self, state):
+        for key in self.q_table.keys():
+            if key[0] == state:
+                return True
+        return False
+        
     def update_q_table(self, state, action, reward, next_state):
-        if state not in self.q_table:
+        is_state_in_q_table = self.check_if_state_in_q_table(state)
+        is_next_state_in_table = self.check_if_state_in_q_table(next_state)
+        if not is_state_in_q_table:
             for action in self.action_space:
                 self.q_table[(state, action)] = 0.
-        if next_state in self.q_table:
-            max_next_q = float('-inf')  # Initialize with negative infinity
+        if is_next_state_in_table:
+            max_next_q = float('-inf')
             for state_action, q_value in self.q_table.items():
                 state_ = state_action[0]
-                if state_ == state:
+                if state_ == next_state:
                     max_next_q = max(max_next_q, q_value)
         else:
             max_next_q = 0.
