@@ -1,9 +1,3 @@
-"""
-TODO: 
-- measure RMSE on test dataset
-- better way to stop the traning process
-"""
-
 import pandas as pd
 import numpy as np
 import random
@@ -52,12 +46,10 @@ class QLearningSymbolicRegressor:
         return False
         
     def update_q_table(self, state, action, reward, next_state):
-        is_state_in_q_table = self.check_if_state_in_q_table(state)
-        is_next_state_in_table = self.check_if_state_in_q_table(next_state)
-        if not is_state_in_q_table:
+        if not self.check_if_state_in_q_table(state):
             for action in self.action_space:
                 self.q_table[(state, action)] = 0.
-        if is_next_state_in_table:
+        if self.check_if_state_in_q_table(next_state):
             max_next_q = float('-inf')
             for state_action, q_value in self.q_table.items():
                 state_ = state_action[0]
